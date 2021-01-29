@@ -33,7 +33,7 @@ function chart(department, date, labels, data, colors) {
   if (typeof barsChart !== 'undefined') {
     barsChart.destroy();
   }
-  
+
   barsChart = new Chart(ctx, {
     type: 'bar',
     // type: 'horizontalBar',
@@ -48,6 +48,14 @@ function chart(department, date, labels, data, colors) {
       }]
     },
     options: {
+      layout: {
+        padding: {
+          left: 0,
+          right: 0,
+          top: 15,
+          bottom: 0
+        }
+      },
       scales: {
         yAxes: [
           {
@@ -71,6 +79,27 @@ function chart(department, date, labels, data, colors) {
             }
           }
         ]
+      },
+      animation: {
+        duration: 1,
+        onComplete: function() {
+          var chartInstance = this.chart,
+            ctx = chartInstance.ctx;
+
+          ctx.font = Chart.helpers.fontString(Chart.defaults.global.defaultFontSize, Chart.defaults.global.defaultFontStyle, Chart.defaults.global.defaultFontFamily);
+          ctx.textAlign = 'center';
+          ctx.textBaseline = 'bottom';
+
+          this.data.datasets.forEach(function(dataset, i) {
+            var meta = chartInstance.controller.getDatasetMeta(i);
+            meta.data.forEach(function(bar, index) {
+              if (dataset.data[index] > 0) {
+                var data = dataset.data[index];
+                ctx.fillText(data, bar._model.x, bar._model.y);
+              }
+            });
+          });
+        }
       }
     }
   });
