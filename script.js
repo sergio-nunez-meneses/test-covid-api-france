@@ -1,6 +1,8 @@
-var ctx = getBy('tag', 'canvas')[0].getContext('2d'),
+var departments = ['Ain', 'Aisne', 'Allier', 'Alpes-de-Haute-Provence', 'Hautes-Alpes', 'Alpes-Maritimes', 'Ardèche', 'Ardennes', 'Ariège', 'Aube', 'Aude', 'Aveyron', 'Bouches-du-Rhône', 'Calvados', 'Cantal', 'Charente', 'Charente-Maritime', 'Cher', 'Corrèze', 'Corse-du-Sud', 'Haute-Corse', "Côte-d'Or", "Côtes-d'Armor", 'Creuse', 'Dordogne', 'Doubs', 'Drôme', 'Eure', 'Eure-et-Loir', 'Finistère', 'Gard', 'Haute-Garonne', 'Gers', 'Gironde', 'Hérault', 'Ille-et-Vilaine', 'Indre', 'Indre-et-Loire', 'Isère', 'Jura', 'Landes', 'Loir-et-Cher', 'Loire', 'Haute-Loire', 'Loire-Atlantique', 'Loiret', 'Lot', 'Lot-et-Garonne', 'Lozère', 'Maine-et-Loire', 'Manche', 'Marne', 'Haute-Marne', 'Mayenne', 'Meurthe-et-Moselle', 'Meuse', 'Morbihan', 'Moselle', 'Nièvre', 'Nord', 'Oise', 'Orne', 'Pas-de-Calais', 'Puy-de-Dôme', 'Pyrénées-Atlantiques', 'Hautes-Pyrénées', 'Pyrénées-Orientales', 'Bas-Rhin', 'Haut-Rhin', 'RhôneNote', 'Haute-Saône', 'Saône-et-Loire', 'Sarthe', 'Savoie', 'Haute-Savoie', 'Paris', 'Seine-Maritime', 'Seine-et-Marne', 'Yvelines', 'Deux-Sèvres', 'Somme', 'Tarn', 'Tarn-et-Garonne', 'Var', 'Vaucluse', 'Vendée', 'Vienne', 'Haute-Vienne', 'Vosges', 'Yonne', 'Territoire de Belfort', 'Essonne', 'Hauts-de-Seine', 'Seine-Saint-Denis', 'Val-de-Marne', "Val-d'Oise", 'Guadeloupe', 'Martinique', 'Guyane', 'La Réunion', 'Mayotte'],
   search = getBy('name', 'search'),
-  display = getBy('id', 'code');
+  canvas = getBy('tag', 'canvas')[0],
+  ctx = canvas.getContext('2d'),
+  colors = [];
 
 function getBy(attribute, value) {
   if (attribute === 'tag') {
@@ -14,50 +16,58 @@ function getBy(attribute, value) {
   }
 }
 
-function randomRGBA() {
-  let color = 'rgba(' + Math.floor(Math.random() * 256) + ',' + Math.floor(Math.random() * 256) + ',' + Math.floor(Math.random() * 256) + ',' + Math.random() + ')';
+function randomHexColor() {
+  return '#' + Math.floor(Math.random() * 16777215).toString(16);
+}
 
-  if (!(color < 'rgba(0, 0, 0, 1)' && color > 'rgba(0, 0, 0, 0)')) {
-    return color;
+function generateColors(maxColors) {
+  colors = [];
+
+  for (var i = 0; i < maxColors; i++) {
+    colors.push(randomHexColor());
   }
 }
 
-function chart(department, date, labels, data) {
+function chart(department, date, labels, data, colors) {
   var myChart = new Chart(ctx, {
-      type: 'bar',
-      data: {
-          labels: labels,
-          datasets: [{
-              label: department + ' (au ' + date + ')',
-              data: data,
-              backgroundColor: [
-                  'rgba(255, 99, 132, 0.2)',
-                  'rgba(54, 162, 235, 0.2)',
-                  'rgba(255, 206, 86, 0.2)',
-                  'rgba(75, 192, 192, 0.2)',
-                  'rgba(153, 102, 255, 0.2)',
-                  'rgba(255, 159, 64, 0.2)'
-              ],
-              borderColor: [
-                  'rgba(255, 99, 132, 1)',
-                  'rgba(54, 162, 235, 1)',
-                  'rgba(255, 206, 86, 1)',
-                  'rgba(75, 192, 192, 1)',
-                  'rgba(153, 102, 255, 1)',
-                  'rgba(255, 159, 64, 1)'
-              ],
-              borderWidth: 1
-          }]
-      },
-      options: {
-          scales: {
-              yAxes: [{
-                  ticks: {
-                      beginAtZero: true
-                  }
-              }]
+    type: 'bar',
+    // type: 'horizontalBar',
+    data: {
+      labels: labels,
+      datasets: [{
+        label: department + ' (' + date + ')',
+        data: data,
+        backgroundColor: colors,
+        borderColor: colors,
+        borderWidth: 1
+      }]
+    },
+    options: {
+      scales: {
+        yAxes: [
+          {
+            stacked: true,
+            gridLines:
+            {
+              display: true,
+              color: 'rgba(255, 255, 255, 0.6)'
+            },
+            ticks: {
+              beginAtZero: true
+            }
           }
+        ],
+        xAxes: [
+          {
+            stacked: true,
+            gridLines:
+            {
+              display: true
+            }
+          }
+        ]
       }
+    }
   });
 }
 
@@ -75,15 +85,24 @@ function response() {
   }
 
   var response = JSON.parse(this.responseText).LiveDataByDepartement[0],
-    labels = ['guéris.es', 'hospitalisés.es', 'reanimation', 'décès', 'nouvelles hospitalisations', 'nouvelles reanimations'],
+    labels = ['guéris.es', 'hospitalisés.es', 'réanimation', 'décès', 'nouvelles hospitalisations', 'nouvelles réanimations'],
     data = [response.gueris, response.hospitalises, response.reanimation, response.deces, response.nouvellesHospitalisations, response.nouvellesReanimations];
 
-  chart(response.nom, response.date, labels, data);
+  generateColors(data.length);
+  chart(response.nom, response.date, labels, data, colors);
 }
 
 search.addEventListener('click', () => {
-  var input = getBy('name', 'department').value,
-    filteredInput;
+  // var input = getBy('name', 'department').value;
+  var selectedOption = getBy('tag', 'select')[0].selectedOptions[0].value;
 
-  ajax(input);
+  ajax(selectedOption);
 });
+
+// populate <select>
+for (var i = 0; i < departments.length; i++) {
+  var option = document.createElement('option');
+  option.value = departments[i];
+  option.innerHTML = departments[i];
+  getBy('tag', 'select')[0].appendChild(option);
+}

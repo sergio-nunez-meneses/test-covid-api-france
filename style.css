@@ -16,7 +16,7 @@ body {
 }
 
 .main-container {
-  width: 50vw;
+  width: 640px;
 }
 
 .info-container, .response-container {
@@ -32,6 +32,6 @@ body {
   padding: 2rem;
 }
 
-input, button {
+input, select, button {
   margin: 0.125rem 0;
 }
