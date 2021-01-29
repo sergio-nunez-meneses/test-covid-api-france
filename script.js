@@ -48,6 +48,7 @@ function chart(department, date, labels, data, colors) {
       }]
     },
     options: {
+      responsive: true,
       layout: {
         padding: {
           left: 0,
@@ -80,8 +81,10 @@ function chart(department, date, labels, data, colors) {
           }
         ]
       },
+      hover: {
+        animationDuration: 10
+      },
       animation: {
-        duration: 1,
         onComplete: function() {
           var chartInstance = this.chart,
             ctx = chartInstance.ctx;
@@ -90,11 +93,13 @@ function chart(department, date, labels, data, colors) {
           ctx.textAlign = 'center';
           ctx.textBaseline = 'bottom';
 
-          this.data.datasets.forEach(function(dataset, i) {
+          this.data.datasets.forEach((dataset, i) => {
             var meta = chartInstance.controller.getDatasetMeta(i);
-            meta.data.forEach(function(bar, index) {
+
+            meta.data.forEach((bar, index) => {
               if (dataset.data[index] > 0) {
                 var data = dataset.data[index];
+
                 ctx.fillText(data, bar._model.x, bar._model.y);
               }
             });
