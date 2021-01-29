@@ -1,4 +1,4 @@
-var button = getBy('name', 'search'),
+var search = getBy('name', 'search'),
   display = getBy('id', 'code');
 
 function getBy(attribute, value) {
@@ -22,17 +22,17 @@ function ajax(departement) {
 
 function response() {
   if (this.responseText.charAt(0) !== '{') {
-    console.log('error');
+    console.log('not JSON');
+    return;
   }
 
-  var response = JSON.parse(this.responseText);
-  display.innerHTML = response.LiveDataByDepartement;
-
-  console.log(response.LiveDataByDepartement);
+  var response = JSON.parse(this.responseText).LiveDataByDepartement[0];
+  display.innerHTML = JSON.stringify(response, undefined, 2);
+  console.log(response);
 }
 
-button.addEventListener('click', () => {
-  var input = getBy('name', 'departement').value;
+search.addEventListener('click', () => {
+  var input = getBy('name', 'department').value;
 
   // filter input
 
