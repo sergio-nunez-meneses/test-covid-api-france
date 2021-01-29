@@ -2,10 +2,32 @@ body {
   margin: 0;
 }
 
-.main-container {
+.main-container, .info-container, .form-container, .response-container {
   display: flex;
+}
+
+.main-container, .form-container {
   flex-direction: column;
-  justify-content: center;
+  margin: 0 auto;
+}
+
+.main-container, .response-container {
   padding: 1rem;
-  margin: auto 0;
+}
+
+.main-container {
+  width: 50vw;
+}
+
+.info-container, .response-container {
+  justify-content: center;
+}
+
+.info-container {
+  padding: 0.5rem;
+}
+
+.form-container {
+  width: 50%;
+  padding: 2rem;
 }

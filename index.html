@@ -7,14 +7,21 @@
   </head>
   <body>
     <div class="main-container">
-      <p>COVID statistics by department.<br>
-      Example, type:
-        <code>Bourgogne-Franche-Comté</code>
-      </p>
+      <div class="info-container">
+        <p>COVID statistics by department.<br>
+        Example, type:
+          <code>Bourgogne-Franche-Comté</code>
+        </p>
+      </div>
 
-      <input type="text" name="department" placeholder="département">
-      <button type="button" name="search">afficher</button>
-      <pre id="code"></pre>
+      <div class="form-container">
+        <input type="text" name="department" placeholder="département">
+        <button type="button" name="search">afficher</button>
+      </div>
+
+      <div class="response-container">
+        <pre id="code"></pre>
+      </div>
     </div>
 
     <script src="script.js"></script>

@@ -32,7 +32,8 @@ function response() {
 }
 
 search.addEventListener('click', () => {
-  var input = getBy('name', 'department').value;
+  var input = getBy('name', 'department').value,
+    filteredInput;
 
   // filter input
 
