@@ -2,7 +2,8 @@ var departments = ['Ain', 'Aisne', 'Allier', 'Alpes-de-Haute-Provence', 'Hautes-
   search = getBy('name', 'search'),
   canvas = getBy('tag', 'canvas')[0],
   ctx = canvas.getContext('2d'),
-  colors = [];
+  colors = [],
+  barsChart;
 
 function getBy(attribute, value) {
   if (attribute === 'tag') {
@@ -29,7 +30,11 @@ function generateColors(maxColors) {
 }
 
 function chart(department, date, labels, data, colors) {
-  var myChart = new Chart(ctx, {
+  if (typeof barsChart !== 'undefined') {
+    barsChart.destroy();
+  }
+  
+  barsChart = new Chart(ctx, {
     type: 'bar',
     // type: 'horizontalBar',
     data: {
