@@ -16,7 +16,7 @@ body {
 }
 
 .main-container {
-  width: 640px;
+  width: 720px;
 }
 
 .info-container, .response-container {
@@ -30,6 +30,11 @@ body {
 .form-container {
   width: 50%;
   padding: 2rem;
+}
+
+.response-container {
+  flex-direction: row;
+  flex-wrap: wrap;
 }
 
 input, select, button {
