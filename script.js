@@ -111,23 +111,18 @@ function chart(department, date, labels, data, colors) {
   });
 }
 
-// function ajax(departement) {
-//   let xhr = new XMLHttpRequest();
-//   xhr.open('GET', 'https://coronavirusapi-france.now.sh/LiveDataByDepartement?Departement=' + departement);
-//   xhr.send();
-//   xhr.onload = response;
-// }
-
-function executeRequest(url) {
+function ajax(url) {
   let xhr = new XMLHttpRequest();
   xhr.open('GET', url);
+  // xhr.open('GET', 'https://coronavirusapi-france.now.sh/LiveDataByDepartement?Departement=' + departement);
   xhr.send();
-  xhr.onload = displayLog;
+  xhr.onload = displayResponse;
+  // xhr.onload = response;
 }
 
-function displayLog() {
+function displayResponse() {
   let response = JSON.parse(this.responseText);
-  console.log(response);
+  console.log(Object.keys(response).length, Object.keys(response)[0], response);
 }
 
 function request(dataType) {
@@ -138,6 +133,7 @@ function request(dataType) {
   } else if (dataType === 'departments-data') {
     url = 'https://coronavirusapi-france.now.sh/AllLiveData';
   } else if (dataType === 'search') {
+    // let input = getBy('name', 'department').value;
     let selectedOption = getBy('tag', 'select')[0].selectedOptions[0].value;
     url = 'https://coronavirusapi-france.now.sh/LiveDataByDepartement?Departement=' + selectedOption;
   } else if (dataType === 'date-data') {
@@ -145,7 +141,7 @@ function request(dataType) {
     url = 'https://coronavirusapi-france.now.sh/AllDataByDate?date=' + selectedDate;
   }
 
-  executeRequest(url);
+  ajax(url);
 }
 
 function response() {
@@ -161,13 +157,6 @@ function response() {
   generateColors(data.length);
   chart(response.nom, response.date, labels, data, colors);
 }
-
-// search.addEventListener('click', () => {
-//   // var input = getBy('name', 'department').value;
-//   var selectedOption = getBy('tag', 'select')[0].selectedOptions[0].value;
-//
-//   ajax(selectedOption);
-// });
 
 // add event listener to all <button>
 for (let button of buttons) {
