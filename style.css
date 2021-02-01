@@ -27,9 +27,12 @@ body {
   padding: 0.5rem;
 }
 
+.form-container, canvas {
+  padding: 2rem;
+}
+
 .form-container {
   width: 50%;
-  padding: 2rem;
 }
 
 .response-container {
@@ -39,4 +42,9 @@ body {
 
 input, select, button {
   margin: 0.125rem 0;
+}
+
+canvas {
+  border: 1px solid #ddd;
+  margin: 0.25rem;
 }
