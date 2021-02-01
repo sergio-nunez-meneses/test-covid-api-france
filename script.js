@@ -121,8 +121,18 @@ function ajax(url) {
 }
 
 function displayResponse() {
-  let response = JSON.parse(this.responseText);
-  console.log(Object.keys(response).length, Object.keys(response)[0], response);
+  let response = JSON.parse(this.responseText),
+    objectKey = Object.keys(response)[0];
+
+  if (objectKey === 'FranceGlobalLiveData') {
+    console.log(response.FranceGlobalLiveData[0]);
+  } else if (objectKey === 'allLiveFranceData') {
+    console.log(response.allLiveFranceData);
+  } else if (objectKey === 'LiveDataByDepartement') {
+    console.log(response.LiveDataByDepartement[0]);
+  } else if (objectKey === 'allFranceDataByDate') {
+    console.log(response.allFranceDataByDate);
+  }
 }
 
 function request(dataType) {
@@ -144,19 +154,19 @@ function request(dataType) {
   ajax(url);
 }
 
-function response() {
-  if (this.responseText.charAt(0) !== '{') {
-    console.log('not JSON');
-    return;
-  }
-
-  var response = JSON.parse(this.responseText).LiveDataByDepartement[0],
-    labels = ['guéris.es', 'hospitalisés.es', 'réanimation', 'décès', 'nouvelles hospitalisations', 'nouvelles réanimations'],
-    data = [response.gueris, response.hospitalises, response.reanimation, response.deces, response.nouvellesHospitalisations, response.nouvellesReanimations];
-
-  generateColors(data.length);
-  chart(response.nom, response.date, labels, data, colors);
-}
+// function response() {
+//   if (this.responseText.charAt(0) !== '{') {
+//     console.log('not JSON');
+//     return;
+//   }
+//
+//   var response = JSON.parse(this.responseText).LiveDataByDepartement[0],
+//     labels = ['guéris.es', 'hospitalisés.es', 'réanimation', 'décès', 'nouvelles hospitalisations', 'nouvelles réanimations'],
+//     data = [response.gueris, response.hospitalises, response.reanimation, response.deces, response.nouvellesHospitalisations, response.nouvellesReanimations];
+//
+//   generateColors(data.length);
+//   chart(response.nom, response.date, labels, data, colors);
+// }
 
 // add event listener to all <button>
 for (let button of buttons) {
@@ -165,7 +175,7 @@ for (let button of buttons) {
   });
 }
 
-// populate <select>
+// populate <select> with french departments
 for (var i = 0; i < departments.length; i++) {
   var option = document.createElement('option');
   option.value = departments[i];
