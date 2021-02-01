@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <script src="https://cdn.jsdelivr.net/npm/chart.js@2/dist/Chart.min.js"></script>
     <link rel="stylesheet" href="style.css">
-    <title></title>
+    <title>COVID statistics</title>
   </head>
   <body>
     <div class="main-container">
@@ -18,9 +18,16 @@
 
       <div class="form-container">
         <!-- <input type="text" name="department" placeholder="département"> -->
-        <label for="deparment">Choose a department:</label>
-        <select name="department"></select>
+        <p>Display all:</p>
+        <button type="button" name="global-data">Global national data</button>
+        <button type="button" name="departments-data">Departments data</button>
+
+        <p>Display data by department:</p>
+        <select id="department" name="department"></select>
         <button type="button" name="search">display</button>
+
+        <p>Display data by date:</p>
+        <button type="button" name="date-data">display</button>
       </div>
 
       <div class="response-container">
