@@ -122,7 +122,7 @@ function executeRequest(url) {
   let xhr = new XMLHttpRequest();
   xhr.open('GET', url);
   xhr.send();
-  xhr.onload = displayLog
+  xhr.onload = displayLog;
 }
 
 function displayLog() {
@@ -139,9 +139,10 @@ function request(dataType) {
     url = 'https://coronavirusapi-france.now.sh/AllLiveData';
   } else if (dataType === 'search') {
     let selectedOption = getBy('tag', 'select')[0].selectedOptions[0].value;
-    url = 'https://coronavirusapi-france.now.sh/LiveDataByDepartement?Departement=' + selectedOption; // department name
+    url = 'https://coronavirusapi-france.now.sh/LiveDataByDepartement?Departement=' + selectedOption;
   } else if (dataType === 'date-data') {
-    url = 'https://coronavirusapi-france.now.sh/AllDataByDate?date='; // YYYY-mm-dd
+    let selectedDate = getBy('name', 'date').value;
+    url = 'https://coronavirusapi-france.now.sh/AllDataByDate?date=' + selectedDate;
   }
 
   executeRequest(url);
