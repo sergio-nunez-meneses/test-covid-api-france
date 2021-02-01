@@ -29,9 +29,9 @@ function generateColors(maxColors) {
 }
 
 function chart(ctx, name, date, labels, data, colors) {
-  if (typeof barsChart !== 'undefined') {
-    barsChart.destroy();
-  }
+  // if (typeof barsChart !== 'undefined') {
+  //   barsChart.destroy();
+  // }
 
   barsChart = new Chart(ctx, {
     type: 'bar',
@@ -154,10 +154,16 @@ function handleResponse() {
 
   rawDataKeys = Object.keys(rawData);
 
+  // clear <div> and chart content
   if (responseContainer.childElementCount > 0) {
     responseContainer.innerHTML = '';
   }
 
+  if (typeof barsChart !== 'undefined') {
+    barsChart.destroy();
+  }
+
+  // filter and render data
   if (rawDataKeys.length < 121) {
     filterData(rawData, rawDataKeys);
   } else {
@@ -173,7 +179,7 @@ function filterData(data, keys) {
     label;
 
   keys.forEach((key) => {
-    if (key !== 'code' && key !== 'nom' && key !== 'source' && key !== 'sourceType') {
+    if (key !== 'code' && key !== 'date' && key !== 'nom' && key !== 'source' && key !== 'sourceType') {
       label = key.replace(/([A-Z])/g, ' $1').replace(/^./, (str) => {
         return str.toUpperCase();
       });
@@ -186,6 +192,7 @@ function filterData(data, keys) {
   generateColors(filteredData.length);
 
   console.log(data.nom, data.date, labels, filteredData, colors);
+
   renderData(data.nom, data.date, labels, filteredData, colors);
 }
 
@@ -193,9 +200,7 @@ function renderData(name, date, labels, data, colors) {
   let canvas = document.createElement('canvas'),
     ctx = canvas.getContext('2d');
 
-  // chart(ctx, name, date, labels, data, colors);
-  generateColors(1);
-  canvas.style.backgroundColor = colors[0];
+  chart(ctx, name, date, labels, data, colors);
   responseContainer.appendChild(canvas);
 }
 
