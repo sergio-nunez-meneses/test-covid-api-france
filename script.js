@@ -2,7 +2,9 @@ var departments = ['Ain', 'Aisne', 'Allier', 'Alpes-de-Haute-Provence', 'Hautes-
   buttons = getBy('tag', 'button'),
   responseContainer = getBy('class', 'response-container')[0],
   colors = [],
-  barsChart;
+  barsChart,
+  scrollBtn = getBy('name', 'scroll'),
+  rootElement = document.documentElement;
 
 function getBy(attribute, value) {
   if (attribute === 'tag') {
@@ -29,10 +31,6 @@ function generateColors(maxColors) {
 }
 
 function chart(ctx, name, date, labels, data, colors) {
-  // if (typeof barsChart !== 'undefined') {
-  //   barsChart.destroy();
-  // }
-
   barsChart = new Chart(ctx, {
     type: 'bar',
     // type: 'horizontalBar',
@@ -190,9 +188,6 @@ function filterData(data, keys) {
   });
 
   generateColors(filteredData.length);
-
-  console.log(data.nom, data.date, labels, filteredData, colors);
-
   renderData(data.nom, data.date, labels, filteredData, colors);
 }
 
@@ -204,12 +199,30 @@ function renderData(name, date, labels, data, colors) {
   responseContainer.appendChild(canvas);
 }
 
+function showScrollButton() {
+  if (rootElement.scrollTop > rootElement.clientHeight) {
+    scrollBtn.style.display = 'block';
+  } else {
+    scrollBtn.style.display = 'none';
+  }
+}
+
+function scrollToTop() {
+  rootElement.scrollTo({
+    top: 0,
+    behavior: 'smooth'
+  });
+}
+
 // add event listener to all <button>
 for (let button of buttons) {
   button.addEventListener('click', () => {
     request(button.name);
   });
 }
+
+document.addEventListener('scroll', showScrollButton);
+scrollBtn.addEventListener('click', scrollToTop);
 
 // populate <select> with departments array
 for (var i = 0; i < departments.length; i++) {

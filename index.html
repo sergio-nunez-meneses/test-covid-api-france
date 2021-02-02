@@ -9,26 +9,28 @@
   <body>
     <div class="main-container">
       <div class="info-container">
-        <!-- <p>COVID statistics by department.<br>
-        Example, type:
-          <code>Bourgogne-Franche-Comté</code>
-        </p> -->
         <h3>COVID-19 statistics in France</h3>
       </div>
 
       <div class="form-container">
-        <!-- <input type="text" name="department" placeholder="département"> -->
-        <p>Display all up-to-date:</p>
-        <button type="button" name="global-data">Global national data</button>
-        <button type="button" name="departments-data">Departments data</button>
-        <p>By department:</p>
-        <select name="department"></select>
-        <button type="button" name="department-data">display</button>
+        <div class="form-elements-container">
+          <!-- <input type="text" name="department" placeholder="département"> -->
+          <p>Display all up-to-date:</p>
+          <button type="button" name="global-data">Global national data</button>
+          <button type="button" name="departments-data">Departments data</button>
+          <p>By department:</p>
+          <select name="department"></select>
+          <button type="button" name="department-data">by department</button>
+        </div>
 
-        <p>By date:</p>
-        <input type="date" name="date">
-        <button type="button" name="date-data">display</button>
+        <div class="form-elements-container">
+          <p>By date:</p>
+          <input type="date" name="date">
+          <button type="button" name="date-data">by date</button>
+        </div>
       </div>
+
+      <input class="scroll-btn" type="button" name="scroll" value="&Hat;">
 
       <div class="response-container"></div>
     </div>

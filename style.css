@@ -2,13 +2,12 @@ body {
   margin: 0;
 }
 
-.main-container, .info-container, .form-container, .response-container {
+.main-container, .info-container, .form-container, .form-elements-container, .response-container {
   display: flex;
 }
 
-.main-container, .form-container {
+.main-container, .form-elements-container {
   flex-direction: column;
-  margin: 0 auto;
 }
 
 .main-container, .response-container {
@@ -17,6 +16,7 @@ body {
 
 .main-container {
   width: 720px;
+  margin: 0 auto;
 }
 
 .info-container, .response-container {
@@ -27,24 +27,43 @@ body {
   padding: 0.5rem;
 }
 
+.form-container {
+  width: 70%;
+  align-self: center;
+}
+
+.form-container, .response-container {
+  flex-direction: row;
+}
+
 .form-container, canvas {
   padding: 2rem;
 }
 
-.form-container {
-  width: 50%;
-}
-
-.response-container {
-  flex-direction: row;
-  flex-wrap: wrap;
+.form-elements-container {
+  width: 100%;
+  padding: 0.75rem;
 }
 
 input, select, button {
   margin: 0.125rem 0;
 }
 
+.response-container {
+  flex-wrap: wrap;
+}
+
 canvas {
   border: 1px solid #ddd;
   margin: 0.25rem;
+}
+
+.scroll-btn {
+  display: none;
+  width: 35px;
+  height: 35px;
+  position: fixed;
+  bottom: 50px;
+  right: 50px;
+  z-index: 100;
 }
